@@ -1,0 +1,25 @@
+# Node modules
+node_modules/
+
+# Build
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# MacOS / Windows 
+.DS_Store
+Thumbs.db
+
+# Editor configs / Cache
+.vscode/
+.idea/
+*.swp
+
+# Env-Dateien
+.env
+.env.local
+.env.*.local

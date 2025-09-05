@@ -1,0 +1,219 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(
+      150deg,
+      rgba(173, 108, 42, 1) 10%,
+      rgba(120, 39, 105, 1) 85%
+    )
+    no-repeat;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  /* border: 3px solid green; */
+}
+
+h1 {
+  color: white;
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 20px;
+}
+
+#container {
+  width: 100vw;
+  height: 100dvh;
+  /* padding-left: 15px; */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow-x: hidden;
+  /* border: 3px solid blue; */
+}
+
+#kanban-board {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  overflow-x: auto;
+  width: 100vw;
+  height: calc(100dvh - 100px);
+  padding: 0 15px;
+  padding-bottom: 20px;
+  /* border: 3px solid red; */
+}
+
+.column {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  min-width: 90%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* border: 3px solid yellow; */
+}
+
+.column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: red;
+  height: 50px;
+  padding: 20px 10px;
+  border-radius: 15px 15px 0 0;
+  /* border: 3px solid white; */
+}
+
+h2 {
+  color: white;
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
+}
+
+#todo {
+  background-color: #782669;
+}
+
+#in-progress {
+  background-color: #8a2be2;
+}
+
+#done {
+  background-color: #4caf50;
+}
+
+#add-task-btn {
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  background-color: transparent;
+  border: none;
+  width: 50px;
+  height: 50px;
+  color: white;
+  cursor: pointer;
+  /* border: 3px solid white; */
+}
+
+.task {
+  width: 95%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "task-title task-title edit-task delete-task"
+    "task-description task-description task-description task-description";
+  grid-template-rows: auto 1fr;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.task-title {
+  grid-area: task-title;
+  font-family: "Host Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  padding: 10px 0;
+  /* background-color: red; */
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.edit-task {
+  grid-area: edit-task;
+  justify-self: end;
+  padding: 10px 10px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  /* margin-left: 10px; */
+  /* background-color: green; */
+}
+.delete-task {
+  grid-area: delete-task;
+  justify-self: end;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  padding: 10px 10px;
+  width: 50px;
+  height: 50px;
+  /* background-color: orange; */
+}
+
+.task-description {
+  grid-area: task-description;
+  font-family: "Host Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  color: white;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  margin-bottom: 10px;
+  /* background-color: yellow; */
+}
+
+/* Scroll-bar */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #a15d39dc;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  #container {
+    width: 80%;
+  }
+
+  #kanban-board {
+    width: 100%;
+    /* padding: 0; */
+  }
+
+  .column {
+    /* min-width: 300px; */
+    min-width: 0;
+    width: fit-content;
+  }
+}

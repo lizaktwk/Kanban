@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <title>Kanban</title>
+</head>
+
+<body>
+    <div id="container">
+        <h1>My Task Tracker</h1>
+        <div id="kanban-board">
+            <div class="column">
+                <div class="column-header" id="todo">
+                    <h2>To Do</h2>
+                    <button id="add-task-btn">+</button>
+                </div>
+                <div class="task">
+                    <h3 class="task-title">Title</h3>
+                    <button class="edit-task"> <img src="assets/edit.png" alt="Edit Icon"></button>
+                    <button class="delete-task"> <img src="assets/delete.png" alt="Delete Icon"></button>
+                    <p class="task-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi non
+                        perferendis ea molestiae quas
+                        ab obcaecati, quam nobis vel facilis impedit sit unde, est hic provident at ad, facere ex.</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="column-header" id="in-progress">
+                    <h2>In Progress</h2>
+                </div>
+                <div class="task">
+                    <h3 class="task-title">Title</h3>
+                    <button class="edit-task"> <img src="assets/edit.png" alt="Edit Icon"></button>
+                    <button class="delete-task"> <img src="assets/delete.png" alt="Delete Icon"></button>
+                    <p class="task-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi non
+                        perferendis ea molestiae quas
+                        ab obcaecati, quam nobis vel facilis impedit sit unde, est hic provident at ad, facere ex.</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="column-header" id="done">
+                    <h2>Done</h2>
+                </div>
+                <div class="task">
+                    <h3 class="task-title">Title</h3>
+                    <button class="edit-task"> <img src="assets/edit.png" alt="Edit Icon"></button>
+                    <button class="delete-task"> <img src="assets/delete.png" alt="Delete Icon"></button>
+                    <p class="task-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi non
+                        perferendis ea molestiae quas
+                        ab obcaecati, quam nobis vel facilis impedit sit unde, est hic provident at ad, facere ex.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
