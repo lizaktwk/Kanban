@@ -37,7 +37,6 @@ h1 {
   flex-direction: column;
   align-items: flex-start;
   overflow-x: hidden;
-  /* border: 3px solid blue; */
 }
 
 #kanban-board {
@@ -51,7 +50,6 @@ h1 {
   height: calc(100dvh - 100px);
   padding: 0 15px;
   padding-bottom: 20px;
-  /* border: 3px solid red; */
 }
 
 .column {
@@ -65,7 +63,6 @@ h1 {
   justify-content: flex-start;
   gap: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  /* border: 3px solid yellow; */
 }
 
 .column-header {
@@ -77,7 +74,6 @@ h1 {
   height: 50px;
   padding: 20px 10px;
   border-radius: 15px 15px 0 0;
-  /* border: 3px solid white; */
 }
 
 h2 {
@@ -108,7 +104,11 @@ h2 {
   height: 50px;
   color: white;
   cursor: pointer;
-  /* border: 3px solid white; */
+  transition: transform 0.1s ease;
+}
+
+#add-task-btn:active {
+  transform: scale(0.95);
 }
 
 .task {
@@ -134,7 +134,6 @@ h2 {
   color: white;
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   padding: 10px 0;
-  /* background-color: red; */
 }
 
 img {
@@ -152,8 +151,11 @@ img {
   cursor: pointer;
   background-color: transparent;
   border: none;
-  /* margin-left: 10px; */
-  /* background-color: green; */
+  transition: transform 0.1s ease;
+}
+
+.edit-task:active {
+  transform: scale(0.95);
 }
 .delete-task {
   grid-area: delete-task;
@@ -164,7 +166,11 @@ img {
   padding: 10px 10px;
   width: 50px;
   height: 50px;
-  /* background-color: orange; */
+  transition: transform 0.1s ease;
+}
+
+.delete-task:active {
+  transform: scale(0.95);
 }
 
 .task-description {
@@ -176,43 +182,144 @@ img {
   color: white;
   font-size: clamp(1rem, 2vw, 1.5rem);
   margin-bottom: 10px;
-  /* background-color: yellow; */
+}
+
+#add-task {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "task-title save-task-btn delete-task"
+    "task-description task-description task-description";
+  gap: 10px;
+  width: 95%;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+#add-task textarea {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  font-family: "Host Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  color: white;
+  resize: none;
+  overflow-wrap: break-word;
+  outline: none;
+}
+
+#add-task .task-title {
+  grid-area: task-title;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  padding: 10px;
+  width: 100%;
+  min-width: 0;
+  height: fit-content;
+  box-sizing: border-box;
+}
+
+#add-task .delete-task {
+  grid-area: delete-task;
+  align-self: center;
+  width: 50px;
+  height: auto;
+}
+
+.save-task-btn {
+  grid-area: save-task-btn;
+  cursor: pointer;
+  border: none;
+  padding: 10px 10px;
+  width: auto;
+  /* height: fit-content; */
+  margin-left: 10px;
+  border-radius: 15px;
+  /* background-image: linear-gradient(
+    150deg,
+    rgba(173, 108, 42, 1) 0%,
+    rgba(120, 39, 105, 1) 51%,
+    rgba(173, 108, 42, 1) 100%
+    ); */
+  background-image: linear-gradient(
+    to right,
+    rgba(173, 108, 42, 1) 0%,
+    rgba(120, 39, 105, 1) 51%,
+    rgba(173, 108, 42, 1) 100%
+  );
+  background-size: 200% auto;
+  color: white;
+  font-family: "Host Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  text-align: center;
+  align-self: center;
+  transition: 0.5s ease;
+}
+.save-task-btn:hover {
+  background-position: right center;
+}
+
+.save-task-btn:active {
+  transform: scale(0.95);
+}
+
+#add-task .task-description {
+  grid-area: task-description;
+  font-weight: 300;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 /* Scroll-bar */
-/* width */
 ::-webkit-scrollbar {
   width: 10px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.2);
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #a15d39dc;
   cursor: pointer;
 }
 
+/* Media Queries for medium screens */
 @media (min-width: 768px) {
   #container {
-    width: 80%;
+    width: 95%;
   }
 
   #kanban-board {
     width: 100%;
-    /* padding: 0; */
   }
 
   .column {
-    /* min-width: 300px; */
+    min-width: 45%;
+  }
+}
+
+/* Media Queries for larger screens */
+@media (min-width: 1200px) {
+  #container {
+    width: 80%;
+  }
+
+  .column {
     min-width: 0;
     width: fit-content;
   }
