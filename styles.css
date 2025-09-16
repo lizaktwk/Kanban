@@ -74,6 +74,8 @@ h1 {
   height: 50px;
   padding: 20px 10px;
   border-radius: 15px 15px 0 0;
+  position: sticky;
+  top: 0;
 }
 
 h2 {
@@ -320,7 +322,8 @@ img {
   }
 
   .column {
-    min-width: 0;
-    width: fit-content;
+    min-width: 30%;
+    /* min-width: 0; */
+    /* width: fit-content; */
   }
 }
