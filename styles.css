@@ -125,6 +125,8 @@ h2 {
   border-radius: 15px;
   padding: 10px;
   margin-top: 10px;
+  touch-action: none;
+  user-select: none;
 }
 
 .task-title {

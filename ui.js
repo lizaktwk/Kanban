@@ -1,6 +1,5 @@
 // DOM & Rendering
 // This is the view -> it knows about the DOM but not how tasks are managed
-
 import {
   getTasks,
   createTask,
@@ -17,7 +16,6 @@ const addTaskBtn = document.getElementById("add-task-btn");
 addTaskBtn.addEventListener("click", () => {
   console.log("Add Task Button Clicked");
   createTaskElement(null, true);
-  // renderTasks();
 });
 
 // ----- Initialization -----
@@ -31,8 +29,6 @@ export function renderTasks() {
   inProgressColumn.querySelectorAll(".task").forEach((n) => n.remove());
   doneColumn.querySelectorAll(".task").forEach((n) => n.remove());
 
-  // clearColumns();
-
   const tasks = getTasks();
   tasks.forEach((task) => {
     const taskElement = createTaskElement(task);
@@ -45,20 +41,6 @@ export function renderTasks() {
     }
   });
 }
-
-// ----- Clear Columns and redefine headers -----
-// function clearColumns() {
-//   todoColumn.innerHTML = `<div class="column-header" id="todo">
-//     <h2>To Do</h2>
-//     <button id="add-task-btn">+</button>
-//   </div>`;
-//   inProgressColumn.innerHTML = `<div class="column-header" id="in-progress">
-//     <h2>In Progress</h2>
-//   </div>`;
-//   doneColumn.innerHTML = `<div class="column-header" id="done">
-//     <h2>Done</h2>
-//   </div>`;
-// }
 
 // ----- Create Task Element -----
 export function createTaskElement(task, isForm = false) {
@@ -84,13 +66,12 @@ export function createTaskElement(task, isForm = false) {
     saveBtn.addEventListener("click", () => {
       const titleInput = taskDiv.querySelector(".task-title").value;
       const descriptionInput = taskDiv.querySelector(".task-description").value;
-      if (titleInput && descriptionInput) {
+      if (titleInput) {
         console.log("titleInput:", titleInput);
         console.log("descriptionInput:", descriptionInput);
         // Create a new task and add it to the todo column
         const newTask = createTask(titleInput, descriptionInput);
         const formElement = createTaskElement(newTask, false);
-        // todoColumn.appendChild(formElement);
         renderTasks();
         taskDiv.remove();
       }
@@ -101,12 +82,14 @@ export function createTaskElement(task, isForm = false) {
       deleteTask(task.id);
     });
   } else {
+    taskDiv.dataset.id = task.id;
     taskDiv.innerHTML = `
         <h3 class="task-title">${task.title}</h3>
         <button class="edit-task"> <img src="assets/edit.png" alt="Edit Icon"></button>
         <button class="delete-task"> <img src="assets/delete.png" alt="Delete Icon"></button>
         <p class="task-description">${task.description}</p>
       `;
+
     const editBtn = taskDiv.querySelector(".edit-task");
     const deleteBtn = taskDiv.querySelector(".delete-task");
     editBtn.addEventListener("click", () => {
@@ -127,8 +110,14 @@ function editTaskElement(task) {
 
   const taskDiv = document.createElement("div");
   taskDiv.classList.add("task");
-  todoColumn.appendChild(taskDiv);
-  console.log("Editing form element");
+  taskDiv.dataset.id = task.id;
+  const oldTaskDiv = document.querySelector(`[data-id="${task.id}"]`);
+  if (oldTaskDiv) {
+    oldTaskDiv.replaceWith(taskDiv);
+  } else {
+    todoColumn.appendChild(taskDiv);
+  }
+
   taskDiv.setAttribute("id", "add-task");
   taskDiv.innerHTML = `
         <textarea type="text" placeholder="Task Title" class="task-title">${title}</textarea>
@@ -145,21 +134,93 @@ function editTaskElement(task) {
   saveBtn.addEventListener("click", () => {
     const titleInput = taskDiv.querySelector(".task-title").value;
     const descriptionInput = taskDiv.querySelector(".task-description").value;
-    if (titleInput && descriptionInput) {
-      const updatedTask = updateTask(task.id, {
+    if (titleInput) {
+      updateTask(task.id, {
         title: titleInput,
         description: descriptionInput,
       });
       renderTasks();
-      taskDiv.remove();
     }
   });
 
   deleteBtn.addEventListener("click", () => {
     deleteTask(task.id);
-    taskDiv.remove();
+    renderTasks();
   });
 }
+
+// ----- Drag and Drop with Interact.js -----
+
+//Make all tasks draggable
+interact(".task").draggable({
+  inertia: true,
+  modifiers: [
+    interact.modifiers.restrictRect({
+      restriction: "#kanban-board",
+      endOnly: true,
+    }),
+  ],
+  autoScroll: true,
+  listeners: { move: dragMoveListener },
+});
+
+// Define how tasks move while dragging
+function dragMoveListener(event) {
+  const target = event.target;
+  // keep the dragged position in the data-x/data-y attributes
+  const x = (parseFloat(target.getAttribute("data-x")) || 0) + event.dx;
+  const y = (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
+
+  // translate the element
+  target.style.transform = "translate(" + x + "px, " + y + "px)";
+
+  // update the posiion attributes
+  target.setAttribute("data-x", x);
+  target.setAttribute("data-y", y);
+}
+
+// Enable dropzones for each column
+interact(".column").dropzone({
+  accept: ".task",
+  overlap: 0.5,
+
+  ondragenter(event) {
+    event.target.classList.add("drop-target");
+    event.relatedTarget.classList.add("can-drop");
+  },
+  ondragleave(event) {
+    event.target.classList.remove("drop-target");
+    event.relatedTarget.classList.remove("can-drop");
+  },
+  ondrop(event) {
+    const taskEl = event.relatedTarget;
+    const newColumn = event.target;
+
+    // reset dragging transform
+    taskEl.style.transform = "translate(0px, 0px)";
+    taskEl.removeAttribute("data-x");
+    taskEl.removeAttribute("data-y");
+
+    // move task into the column
+    newColumn.appendChild(taskEl);
+
+    // update task status in storage
+    if (newColumn.id === "todo-column") {
+      moveTask(taskEl.dataset.id, "todo");
+    } else if (newColumn.id === "in-progress-column") {
+      moveTask(taskEl.dataset.id, "in-progress");
+    } else if (newColumn.id === "done-column") {
+      moveTask(taskEl.dataset.id, "done");
+    }
+
+    // re-render tasks so everything stays consistent
+    renderTasks();
+  },
+  ondropdeactivate(event) {
+    event.target.classList.remove("drop-active");
+    event.target.classList.remove("drop-target");
+  },
+});
 
 // ------Testing-------
 if (import.meta.url.includes("ui.js")) {

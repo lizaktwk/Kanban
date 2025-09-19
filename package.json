@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@interactjs/interact": "^1.10.27",
+    "interactjs": "^1.10.27"
+  }
+}
